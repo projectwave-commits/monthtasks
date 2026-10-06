@@ -1,6 +1,6 @@
 // Offline support for the phone app. Online: always fetch the latest files
 // (and refresh the cache). Offline: fall back to the cached copy.
-const CACHE = "monthtasks-v5";
+const CACHE = "monthtasks-__BUILD__";
 const FILES = ["./", "index.html", "style.css", "app.js", "sync.js", "icons.js", "manifest.webmanifest",
   "fonts/patrick-hand-latin-400-normal.woff2", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png"];
 

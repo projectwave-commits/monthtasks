@@ -23,6 +23,7 @@
   const WD = [["M", 1], ["T", 2], ["W", 3], ["T", 4], ["F", 5], ["S", 6], ["S", 0]];
   const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const DEFAULT_REPO = "projectwave-commits/monthtasks-data";
+  const BUILD = "__BUILD__"; // stamped with the deploy number when published
 
   let state = { v: 2, tasks: [] };
   let cfg = null; // { repo, token } when sync is set up
@@ -326,6 +327,7 @@
 
   // ---------- events ----------
   document.querySelectorAll("[data-i]").forEach((el) => (el.innerHTML = ICONS[el.dataset.i]));
+  $("#version").textContent = "month tasks · " + (BUILD.startsWith("__") ? "desktop" : "version " + BUILD);
   $("#prev").onclick = () => { view.m--; if (view.m < 0) { view.m = 11; view.y--; } renderCal(); };
   $("#next").onclick = () => { view.m++; if (view.m > 11) { view.m = 0; view.y++; } renderCal(); };
   $("#today").onclick = () => select(todayKey());
@@ -414,7 +416,11 @@
 
   // phone: installable + offline
   if (!window.pywebview && "serviceWorker" in navigator && location.protocol === "https:") {
-    navigator.serviceWorker.register("sw.js").then((r) => r.update());
+    navigator.serviceWorker.register("sw.js").then((r) => {
+      r.update();
+      // look for a newer version every time the app is opened or brought back
+      document.addEventListener("visibilitychange", () => { if (!document.hidden) r.update(); });
+    });
     // a new version took over: reload once so it's used straight away
     let reloaded = false;
     navigator.serviceWorker.addEventListener("controllerchange", () => { if (!reloaded) { reloaded = true; location.reload(); } });
