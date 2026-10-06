@@ -1,6 +1,6 @@
 // Offline cache for the phone app. Serves cached files instantly and refreshes
 // them in the background, so updates land on the next launch.
-const CACHE = "monthtasks-v1";
+const CACHE = "monthtasks-v2";
 const FILES = ["./", "index.html", "style.css", "app.js", "sync.js", "icons.js", "manifest.webmanifest",
   "fonts/patrick-hand-latin-400-normal.woff2", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png"];
 

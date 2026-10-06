@@ -28,7 +28,7 @@
   let cfg = null; // { repo, token } when sync is set up
   const now = new Date();
   const view = { y: now.getFullYear(), m: now.getMonth(), sel: todayKey(), open: null, form: null, armed: null, panel: false };
-  const sync = { status: "off", last: 0, error: "", busy: false, again: false, timer: null };
+  const sync = { status: "off", last: 0, error: "", busy: false, again: false, timer: null, draft: { repo: DEFAULT_REPO, token: "" } };
 
   // ---------- storage (desktop: files via Python, phone: localStorage) ----------
   const desktop = () => !!window.pywebview?.api;
@@ -151,8 +151,8 @@
         <div class="card panel">
           <div class="panel-title">${icon("cloud")}sync with your phone</div>
           <p class="hint">Saves to a private GitHub repo so this device and your phone stay in step. Works offline and catches up when you're back online.</p>
-          <label class="row">repo <input type="text" id="sRepo" value="${esc(DEFAULT_REPO)}" spellcheck="false"></label>
-          <label class="row">token <input type="password" id="sToken" placeholder="github_pat_..." spellcheck="false" autocomplete="off"></label>
+          <label class="row">repo <input type="text" id="sRepo" value="${esc(sync.draft.repo)}" spellcheck="false"></label>
+          <label class="row">token <input type="password" id="sToken" placeholder="github_pat_..." value="${esc(sync.draft.token)}" spellcheck="false" autocomplete="off"></label>
           ${sync.error ? `<p class="err">${esc(sync.error)}</p>` : ""}
           <div class="form-actions"><button class="btn" data-close>Close</button><button class="btn primary" data-connect>Connect</button></div>
         </div>`;
@@ -169,6 +169,7 @@
   async function connect() {
     const repo = $("#sRepo").value.trim().replace(/^https:\/\/github\.com\//, "").replace(/\/$/, "");
     const token = $("#sToken").value.trim();
+    sync.draft = { repo, token };
     if (!/^[\w.-]+\/[\w.-]+$/.test(repo) || !token) { sync.error = "Fill in both the repo (owner/name) and the token"; renderSync(); return; }
     const btn = $("[data-connect]"); btn.textContent = "Checking..."; btn.disabled = true;
     try {
@@ -176,6 +177,7 @@
       cfg = { repo, token };
       store.saveCfg(cfg);
       sync.error = "";
+      sync.draft = { repo: DEFAULT_REPO, token: "" };
       renderSync();
       runSync();
     } catch (e) {
