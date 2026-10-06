@@ -161,7 +161,7 @@
       p.innerHTML = `
         <div class="card panel">
           <div class="panel-title">${icon(SYNC_ICON[sync.status])}sync is on</div>
-          <p class="hint">${esc(cfg.repo)}<br><span class="${sync.status === "error" ? "err" : ""}">${esc(line)}</span></p>
+          <p class="hint">${esc(cfg.repo)}<br>syncs every hour, when you open the app and after each change<br><span class="${sync.status === "error" ? "err" : ""}">${esc(line)}</span></p>
           <div class="form-actions"><button class="btn" data-disconnect>Turn off</button><button class="btn" data-close>Close</button><button class="btn primary" data-syncnow>Sync now</button></div>
         </div>`;
     }
@@ -378,12 +378,13 @@
     if (e.key === "Escape") { view.form = null; renderForm(); renderTasks(); }
   });
 
-  // refresh "today" past midnight; keep the "synced x min ago" label fresh; pull now and then
+  // refresh "today" past midnight; keep the "synced x min ago" label fresh; sync every hour
+  const SYNC_EVERY = 60 * 60 * 1000;
   let lastToday = todayKey();
   setInterval(() => {
     if (todayKey() !== lastToday) { lastToday = todayKey(); render(); }
     renderSync();
-    if (cfg && !document.hidden && Date.now() - sync.last > 120000) runSync();
+    if (cfg && Date.now() - sync.last >= SYNC_EVERY) runSync();
   }, 60000);
   window.addEventListener("online", () => scheduleSync(300));
   window.addEventListener("offline", () => { if (cfg) { sync.status = "offline"; renderSync(); } });
@@ -409,7 +410,10 @@
 
   // phone: installable + offline
   if (!window.pywebview && "serviceWorker" in navigator && location.protocol === "https:") {
-    navigator.serviceWorker.register("sw.js");
+    navigator.serviceWorker.register("sw.js").then((r) => r.update());
+    // a new version took over: reload once so it's used straight away
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => { if (!reloaded) { reloaded = true; location.reload(); } });
     navigator.storage?.persist?.();
   }
 })();

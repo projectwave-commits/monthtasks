@@ -13,7 +13,7 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { min-height: 100%; min-height: 100dvh; }
-html { scrollbar-width: thin; scrollbar-color: var(--faint) transparent; }
+html { overflow-x: hidden; overscroll-behavior-y: none; scrollbar-width: thin; scrollbar-color: var(--faint) transparent; }
 html { -webkit-tap-highlight-color: transparent; }
 body {
   font-family: Hand, "Segoe Print", "Comic Sans MS", sans-serif;
@@ -25,8 +25,6 @@ body {
   padding: max(14px, env(safe-area-inset-top)) 16px 0;
   gap: 14px;
   user-select: none;
-  overflow-x: hidden;
-  overflow-y: auto;
   position: relative;
 }
 button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
