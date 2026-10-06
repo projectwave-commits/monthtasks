@@ -16,7 +16,9 @@ self.addEventListener("fetch", (e) => {
   e.respondWith((async () => {
     const c = await caches.open(CACHE);
     try {
-      const fresh = await fetch(e.request, { cache: "no-cache" });
+      // page loads ("navigate" requests) can't be re-issued with options, so fetch them by URL
+      const req = e.request.mode === "navigate" ? new Request(e.request.url, { cache: "no-cache", credentials: "same-origin" }) : new Request(e.request, { cache: "no-cache" });
+      const fresh = await fetch(req);
       if (fresh.ok) c.put(e.request, fresh.clone());
       return fresh;
     } catch {
