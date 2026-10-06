@@ -1,0 +1,16 @@
+{
+  "name": "Month Tasks",
+  "short_name": "Month Tasks",
+  "description": "A tiny doodle-style monthly task tracker.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FCFCFA",
+  "theme_color": "#FCFCFA",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FCFCFA">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<title>Month Tasks</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="doodles">
+    <span class="ico" data-i="star" style="top:58px;right:120px;transform:rotate(14deg)"></span>
+    <span class="ico" data-i="bulb" style="bottom:120px;right:14px;transform:rotate(-12deg)"></span>
+    <span class="ico" data-i="clip" style="bottom:40px;left:10px;transform:rotate(30deg)"></span>
+    <span class="ico" data-i="book" style="bottom:200px;left:12px;transform:rotate(-8deg)"></span>
+    <span class="ico" data-i="plane" style="bottom:24px;right:70px;transform:rotate(8deg)"></span>
+  </div>
+
+  <header class="top">
+    <div class="brand"><span class="ico" data-i="doodle"></span><span class="word">this month<svg viewBox="0 0 120 10" preserveAspectRatio="none"><path d="M2 6 C 20 2, 30 9, 48 5 S 80 2, 96 6 S 112 7, 118 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></div>
+    <div class="top-right">
+      <div class="summary" id="summary"></div>
+      <button class="icon-btn sync-btn" id="syncBtn"></button>
+    </div>
+  </header>
+  <div id="syncPanel"></div>
+
+  <section class="card cal">
+    <div class="cal-head">
+      <button class="icon-btn" id="prev" title="Previous month"><span class="ico" data-i="caretLeft"></span></button>
+      <div class="month" id="monthLabel"></div>
+      <button class="icon-btn" id="next" title="Next month"><span class="ico" data-i="caretRight"></span></button>
+      <button class="icon-btn" id="today" title="Jump to today"><span class="ico" data-i="today"></span></button>
+    </div>
+    <div class="weekdays"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="tasks">
+    <div class="tasks-head">
+      <div>
+        <div class="day-label" id="dayLabel"></div>
+        <div class="day-sub" id="daySub"></div>
+      </div>
+      <button class="add-btn" id="add" title="New task"><span class="ico" data-i="plus"></span></button>
+    </div>
+    <div id="form"></div>
+    <div id="list" class="list"></div>
+  </section>
+
+<script src="icons.js"></script>
+<script src="sync.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
