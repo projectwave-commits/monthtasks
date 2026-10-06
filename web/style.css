@@ -71,12 +71,14 @@ body > *:not(.doodles) { position: relative; z-index: 1; }
 .day.past .num { color: #A5A5A5; }
 .day .num { line-height: 1; position: relative; z-index: 1; }
 .day.today .num { text-decoration: underline wavy; text-underline-offset: 4px; text-decoration-thickness: 1.5px; }
-.day .scribble { position: absolute; inset: 1px 3px; width: calc(100% - 6px); height: calc(100% - 2px); pointer-events: none; }
+.day .scribble { position: absolute; inset: 0 -3px; width: calc(100% + 6px); height: 100%; pointer-events: none; }
+.day.today.has-ring .num { text-decoration: none; }
 .day.sel .num { color: var(--ink); }
-.dots { display: flex; gap: 3px; height: 6px; position: relative; z-index: 1; }
+.ring { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.ring .dot { position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; transform: translate(var(--x), var(--y)); }
 .dot { width: 6px; height: 6px; border-radius: 50%; }
 .dot.done { background: var(--ink); }
-.dot.pending { box-shadow: inset 0 0 0 1.4px var(--ink); }
+.dot.pending { box-shadow: inset 0 0 0 1.3px var(--ink); }
 .dot.skip, .dot.missed { background: var(--faint); }
 
 /* tasks */

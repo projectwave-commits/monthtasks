@@ -198,9 +198,13 @@
     for (let i = 0; i < lead; i++) html += `<div class="day empty"></div>`;
     for (let d = 1; d <= count; d++) {
       const k = key(new Date(view.y, view.m, d));
-      const dots = tasks.filter((t) => isActive(t, k)).slice(0, 5).map((t) => `<i class="dot ${status(t, k)}"></i>`).join("");
-      const cls = ["day", k === tk && "today", k === view.sel && "sel", k < tk && "past"].filter(Boolean).join(" ");
-      html += `<button class="${cls}" data-k="${k}">${k === view.sel ? SCRIBBLE : ""}<span class="num">${d}</span><span class="dots">${dots}</span></button>`;
+      // today's tasks sit as dots in a ring around the date, starting at the top
+      const todays = k === tk ? tasks.filter((t) => isActive(t, k)).slice(0, 12) : [];
+      const ring = todays.length
+        ? `<span class="ring">${todays.map((t, i) => `<i class="dot ${status(t, k)}" style="--x:${(Math.sin((2 * Math.PI * i) / todays.length) * 12.5).toFixed(1)}px;--y:${(-Math.cos((2 * Math.PI * i) / todays.length) * 12.5).toFixed(1)}px"></i>`).join("")}</span>`
+        : "";
+      const cls = ["day", k === tk && "today", k === view.sel && "sel", k < tk && "past", ring && "has-ring"].filter(Boolean).join(" ");
+      html += `<button class="${cls}" data-k="${k}">${k === view.sel ? SCRIBBLE : ""}<span class="num">${d}</span>${ring}</button>`;
     }
     $("#grid").innerHTML = html;
 
